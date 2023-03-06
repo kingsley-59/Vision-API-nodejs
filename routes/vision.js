@@ -5,8 +5,7 @@ const multer = require('multer');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const WASTE_LABELS = ['plastic']
-const STORAGE_PATH = 'storage/uploads'
+const { STORAGE_PATH, WASTE_LABELS } = require('../config/config');
 
 const upload = multer({
   dest: STORAGE_PATH,
