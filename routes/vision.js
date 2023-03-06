@@ -5,7 +5,7 @@ const multer = require('multer');
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-const { STORAGE_PATH, WASTE_LABELS } = require('../config/config');
+const { STORAGE_PATH, WASTE_LABELS, THRESHOLD } = require('../config/config');
 
 const upload = multer({
   dest: STORAGE_PATH,
@@ -54,7 +54,7 @@ router.post('/labels', upload.fields([{ name: 'photos', maxCount: 12 }]), async 
     const result = {};
     for (let photo of photos) {
       let labels = await getImageLabels(photo.path);
-      let validLabels = labels.filter(({label, score}) => WASTE_LABELS.includes(label.toLowerCase()) && score > 0.7);
+      let validLabels = labels.filter(({label, score}) => WASTE_LABELS.includes(label.toLowerCase()) && score > THRESHOLD);
 
       result[photo.originalname] = validLabels.length > 0
     }
